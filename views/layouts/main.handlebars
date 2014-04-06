@@ -6,12 +6,20 @@
 	    <link rel="icon" type="image/vnd.microsoft.icon" href="{{environment.assetRoot}}/img/favicon.ico" />
 	    <link rel="icon" type="image/gif" href="{{environment.assetRoot}}/img/favicon.gif" />
 	    <link rel="stylesheet" href="{{environment.assetRoot}}css/main.min.css">
+      <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700|Roboto+Condensed:400,700,300" type="text/css">
 	    <script src="{{environment.assetRoot}}js/lib/modernizr/modernizr.js"></script>
 	    <script src="{{environment.assetRoot}}js/lib/jquery/jquery-2.1.0.min.js"></script>
 	</head>
 	<body>
-
-	    {{{body}}}
+    <div class="main l-p-normal">
+      <div class="header l-gap-normal">
+      <a class="title-link" href="/"><h1>Tom Danvers</h1></a>
+        <h2>Freelance web developer.</h2>
+      </div>
+      <div class="content">
+          {{{body}}}
+      </div>
+    </div>
 
 	    <script src="{{environment.assetRoot}}js/main.js"></script>
 	</body>

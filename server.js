@@ -31,16 +31,10 @@ var log = {};
 // Express App Setup
 var express = require('express'),
 	exphbs = require('express3-handlebars'),
-	fs = require('fs'),
 	http = require('http'),
 	hbs = exphbs.create({
 							defaultLayout: 'main',
-							helpers: {
-								postitems: function(data){
-									console.log(hbs.compiled)
-									return renderPostItems(data);
-								}
-							}
+							helpers: {}
 						}),
 	app = express();
 
@@ -48,39 +42,8 @@ app.use(express.logger());
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-hbs.loadTemplate('views/postitems.handlebars', {}, function(){
-	console.log('Loaded Post Items Template');
-});
-
-hbs.loadTemplate('views/postitem.handlebars', {}, function(){
-	console.log('Loaded Post Item Template');
-	log = hbs.compiled;
-});
-
 app.get('/', route);
 app.get('/*', route);
-
-
-
-function renderPostItems(data){
-	var ret = '';
-	ret += '<ul class="l-group depth-'+data.depth+'">';
-	for (var i = 0; i < data.items.length; i++) {
-		ret += '<li class="l-group-item">';
-		if(data.type ==='groups'){
-			ret += renderPostItems(data.items[i]);
-		}else{
-			ret += hbs.compiled[getCompiled('postitem')](data.items[i]);
-		}
-		ret += '</li>';
-	};
-	ret += '</ul>';
-	return ret;
-}
-
-function getCompiled(id){
-	return 'C:\\xampp\\htdocs\\node-js-portfolio\\views\\'+id+'.handlebars';
-}
 
 function route(request, response) {
 
@@ -104,6 +67,7 @@ function route(request, response) {
 				  		if(typeof(json.status) === 'undefined' || json.status === 'error'){
 							response.render('error', {type:'error', title:'Data Error', environment:environment, content: 'Error hitting wp api at: '+url});
 				  		}else{
+				  			log=json;
 				  			var type = getType(json);
 				  			var title = getTitle(type, json);
 				  			var content = parseContent(type, json);
@@ -156,42 +120,11 @@ function getTitle(type, json){
 function parseContent(type, json){
 	switch(type){
 		case 'posts':
-			log = hbs.compiled;
-			return subDividePosts(json.posts, 3, 0);
+			return json;
 			break;
 		default:
 			return json;
 			break;
-	}
-}
-
-function subDividePosts(posts, subDivisions, depth){
-	var pool = [];
-	var postCount = posts.length;
-	var cut = Math.floor(postCount/subDivisions);
-	if(cut >= subDivisions){
-		var cutIndex = 0;
-		for (var i = 0; i < postCount; i++) {
-			if(i === cut*cutIndex){
-				pool[cutIndex] = [];
-			}
-
-			pool[cutIndex].push(posts[i]);
-
-			if(i === cut*(cutIndex+1) - 1){
-				cutIndex ++;
-			}
-		};
-
-		var groupCount = pool.length;
-		var groups = [];
-		var group;
-		for (i = 0; i < groupCount; i++) {
-			groups[i] = subDividePosts(pool[i], subDivisions, depth+1);
-		};
-		return {type:'groups', hasSubDivisions:true, depth:depth, items:groups};
-	}else{
-		return {type:'posts', hasSubDivisions:false, depth:depth, items:posts};
 	}
 }
 

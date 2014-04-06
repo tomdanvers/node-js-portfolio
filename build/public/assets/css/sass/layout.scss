@@ -1,20 +1,14 @@
-.l-group {
-  list-style: none;
+$normal: 10px;
+$large: 20px;
 
-  .l-group-item {
-    display: inline-block;
-  }
+.l-p-normal {
+  padding: $normal;
+}
 
-  &.depth-0 {
-      width: 100%;
-      display: inline-block;
-  }
+.l-p-large {
+  padding: $large;
+}
 
-  &.depth-1 {
-    .l-group-item {
-      float: left;
-      overflow: hidden;
-      width: 33.3333333%;
-    }
-  }
+.l-gap-normal {
+  margin-bottom: $normal;
 }

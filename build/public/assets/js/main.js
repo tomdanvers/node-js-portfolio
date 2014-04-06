@@ -5,6 +5,13 @@ $(function() {
     $.getJSON('http://dev.node-js-portfolio:8888/data/log.json').done(function(log){
     	console.log(log);
     })
+
+    // Posts
+    $('.post-header').click(function(event){
+      event.preventDefault();
+      // $('.post-details').removeClass('show');
+      $(event.currentTarget).parent().toggleClass('show');
+    })
 });
 
 
