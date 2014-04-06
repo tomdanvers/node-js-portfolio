@@ -1,0 +1,20 @@
+.l-group {
+  list-style: none;
+
+  .l-group-item {
+    display: inline-block;
+  }
+
+  &.depth-0 {
+      width: 100%;
+      display: inline-block;
+  }
+
+  &.depth-1 {
+    .l-group-item {
+      float: left;
+      overflow: hidden;
+      width: 33.3333333%;
+    }
+  }
+}
